@@ -1,0 +1,53 @@
+
+label{
+    text-align: center;
+    margin: 0%;
+    padding: 0%;
+    color: black;
+    margin-top: 10%;
+    margin-right: 10%;
+}
+.regist-container{
+    width: 85%;
+    padding: 0%;
+    max-width: 600px;
+    background:#17408bbe;
+    position: relative;
+    top: 150%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    padding: 30px 40px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+
+  Input[type=text] {
+    display: table-column;
+    border: 1px solid lightgrey;
+    margin: 8px 0;
+    width: 100%;
+    height: 30px;
+    padding: 0%;
+    border-radius: 8px;
+  }
+
+  Input[type=submit] {
+    margin-top: 30%;
+    padding: 0;
+    justify-content: center;
+    display: flex;
+    width: 20%;
+}
+
+   Input[type=password] {
+    display: table-column;
+    border: 1px solid lightgrey;
+    margin: 8px 0;
+    width: 100%;
+    height: 30px;
+    padding: 0% 20% 0 0;
+    border-radius: 8px;
+}
+

@@ -1,0 +1,10 @@
+.nav-menu{
+    margin-left: 50px;
+    justify-content: center;
+    padding: 10px 0;
+    font-family: "Lucida Console", Courier, monospace;
+    /* font-size: 100px; */
+    cursor: pointer;
+    color:white;
+    
+}

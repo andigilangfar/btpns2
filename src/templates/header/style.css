@@ -1,0 +1,12 @@
+.header{
+  padding: 10px;
+  background:#17408bbe;
+  margin: auto;
+  
+}
+.logoheader{
+    width: 100px;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+}

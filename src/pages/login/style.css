@@ -1,0 +1,12 @@
+.login-container{
+    margin: auto;
+    padding: 0%;
+}
+
+.body-title{
+    text-align: center;
+    display: flex;
+    width: 50px;
+    margin-left: 50%;
+}
+

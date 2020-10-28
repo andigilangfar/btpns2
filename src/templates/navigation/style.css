@@ -1,0 +1,10 @@
+.nav-container{
+    display: flex;
+    justify-content: flex-start;
+    text-align: justify;
+    background-color: #17408B;
+    color: white;
+    margin-bottom: 20%;
+    
+    
+}
