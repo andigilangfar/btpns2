@@ -1,0 +1,47 @@
+a {
+    text-decoration: none;
+}
+
+label {
+    font-size: 11pt;
+    color: aqua;
+
+}
+
+.form {
+    align-items: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-border {
+    background: -webkit-linear-gradient(right, #a6f77b, #2ec06f);
+    height: 1px;
+    width: 100%;
+}
+
+.form-content {
+    background: #fbfbfb;
+    border: none;
+    outline: none;
+    padding-top: 14px;
+}
+
+.submit-btn {
+    background: -webkit-linear-gradient(right, #073d85, #0a4ee2);
+    border: none;
+    border-radius: 21px;
+    box-shadow: 0px 1px 8px #626d65;
+    cursor: pointer;
+    color: white;
+    font-family: "Raleway SemiBold", sans-serif;
+    height: 42.3px;
+    margin: 0 auto;
+    margin-top: 50px;
+    transition: 0.25s;
+    width: 153px;
+}
+
+.submit-btn:hover {
+    box-shadow: 0px 1px 18px #048af7;
+}

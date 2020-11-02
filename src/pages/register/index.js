@@ -1,70 +1,109 @@
 import React, { Component } from 'react';
-import { Label } from '../../components'
-import { RowInput, Input } from '../../components'
+import {connect} from "react-redux"
+import {Input} from "../../components"
 import "./style.css"
 
 class Register extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name:"",
-            username: "",
-            password: ""
+        this.state = {  
+            email: "",
+            name: "",
+            password: "",
+            dataUser: []
         }
     }
-    onChangeInput = e =>{
+
+    onChangeInput = e => {
+        console.log(e.target)
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
     
+    gotoLogin = () =>{
+        this.props.history.push('/Login')
     }
 
     doRegister = async () =>{
-        const {name, username, password } = this.state
-        this.props.tambahUser({ name, username, password })
-        console.log(this.props.tambahUser.Length)
+        const {email,password,name}=this.state
+        console.log(this.props)
+        const {dataUser}=this.props
+        console.log("Check dataUser")
+        console.log(dataUser)
+        const idUser=dataUser.length;
+        console.log("Check Email")
+        if(name&&email&&password){
+            console.log("true")
+            console.log(dataUser)
         
-        // let oldUsers = this.state.users
-        // oldUsers.push({
-        //     name,
-        //     username,
-        //     password
-        // })
-        // this.setState({
-        //     users:oldUsers
-        // })
-    
-        // this.state.users.push(name, username, password)
+            let statusUser = false    
+            statusUser=dataUser.find(val=>{
+                if (val.email===email){
+                    return true
+                }
+            })
+        
+        if(statusUser){
+            alert("Email has Already Exist")
+        } else {
+            let dataRegister={
+                name: name,
+                password: password,
+                email: email
+            }
+        this.props.saveData(dataRegister, idUser)
+        console.log(dataRegister)
+        await this.props.setData(dataRegister)
+        this.props.history.push('/Login')
+        console.log("register") 
+        }
 
-        //      await this.setState(oldState => {
-        //      let oldData = oldState.users
-        //      oldData.push({ name, username, password })
-        //  })
-        //  console.log(this.state.users);
+        }else{
+            alert("Please Check Again")
+            console.log(false)
+        }
 
-    }
-
-    renderUsers = () => {
-        return this.props.listUsers.map((users, idx) => {
-            return <div key={idx}>
-                name: {users.name} - password: {users.password}
-            </div>
-        })
     }
     render() { 
         return (
-            <div className="body-container">
-                <form className="regist-container" >
-                <RowInput label="Name" name="name" type="text" onChange={this.onChangeInput} />
-                    <RowInput label="Username" name="username" type="text" onChange={this.onChangeInput} />
-                    <RowInput label="Password" name="password" type="password" onChange={this.onChangeInput} />
-                        <Input typeInput="button" valueInput="Register" onClickInput={this.doRegister} />
-                    </form>
-                    {this.renderUsers()}
-                    </div>
+            <div className="Regist-container">
+                <h1>Regist Here !</h1>
+                <form>
+                    <p>Name :</p>
+                    <Input type="text" name="name" 
+                     placeholder="Enter Your Name"
+                     value={this.state.name}
+                     onChangeInput={this.onChangeInput}/>
+                    <p>Email :</p>
+                    <Input type="text" name="email"
+                     placeholder="Enter Your Email"
+                     value={this.state.email}
+                     onChangeInput={this.onChangeInput}/>
+                    <p>Password :</p>
+                    <Input type="password" name="password"
+                     placeholder="Enter Your Password"
+                     value={this.state.password}
+                     onChangeInput={this.onChangeInput}/>
+                    <Input type="button" name="btnRegister"
+                     value="Register"
+                     funcName={this.doRegister}/>
+                     <Input type="button" name="btnRegister"
+                     value="Login"
+                     funcName={this.gotoLogin}/>
+                </form>  
+            </div>
+                
           );
-   
-        }
+    }
 }
- 
-export default Register;
+
+const mapStateToProps = state => ({
+    data: state.data.dataUser
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    setData: (data) => dispatch({type: "addUser",  payload: {dataUser : data}
+    })
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

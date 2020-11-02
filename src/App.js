@@ -1,50 +1,40 @@
-import React, { Component} from 'react';
-import { Header, Nav, Body, Footer} from "./templates"
+import React, {Component} from 'react';
+import {Body,Nav} from "./templates"
 
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state =  {
-      page: "register",
-      isLoggedIn: false
+class App extends Component{
+    constructor(props) {
+      super(props);
+      this.state={
+          page:"register",
+          loginStatus:false
+      }
+    }
+  
+    onClickButton = (page)=>{
+        this.setState({
+            page
+        })
+    }
+    setLoginStatus=(status)=>{
+        console.log("check")
+        console.log(status)
+        this.setState({
+            loginStatus:status
+        })
+    }
+  
+    render() {
+      return(
+          <>
+            <Nav loginStatus={this.state.loginStatus}
+             toPage={this.onClickButton}/>
+            <Body loginStatus={this.state.loginStatus} 
+            status={this.setLoginStatus} 
+            page={this.state.page} 
+            toPage={this.onClickButton}/>
+          </>
+      )
     }
   }
-
-  onClickButton = (page) => {
-    this.setState({
-      page
-    })
-  }
-
-
-
-  doLogout = () => {
-    this.setState({ isLoggedIn: false })
-  }
-
-  changeLogIn = () => {
-    this.setState(oldState => ({ isLoggedIn: !oldState.isLoggedIn }))
-  }
-
-  render() {
-    console.log(this.state.page)
-    return (
-      <>
-        <Header />
-        <Nav
-          statusLogin={this.state.isLoggedIn}
-          changeLogIn={this.changeLogIn}
-          changePage={this.onClickButton} />
-        <Body
-          page={this.state.page}
-          statusLogin={this.state.isLoggedIn}
-          changeLogIn={this.changeLogIn}
-          changePage={this.onClickButton} />
-        <Footer />
-      </>
-    );
-  }
-}
-
-export default App;
+  
+  export default App;

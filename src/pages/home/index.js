@@ -1,48 +1,85 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom"
-import "./style.css"
+import { Redirect } from 'react-router-dom';
+import './style.css'
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            redirect: false,
-            users: [],
-            admin: [{
-                name: "Admin",
-                role: "admin"
-            }, {
-                name: "Administrator",
-                role: "admin"
-            }]
-        }
-    }
-    componentDidMount() {
-        fetch('https://jsonplaceholder.typicode.com/users')
-        .then(response => response.json())
-        .then(json => this.setState({ users : json }))
+            users : [],
+         }
     }
 
-    render() { 
-    
-    
-        return (
-            <>
-             <div className="body-container">
-                <div className="body-text">
-                     <h1>First Ring For Michael Jordan</h1>
-                     <p> June 12th of 1991, Michael Jordan and Scottie Pippen combined for 62 points, 17 rebounds, 17 assists and 10 steals to beat the Lakers 108-101 in Game 5 of the 91 Finals. The victory gave the two Chicago legends their first of six NBA championships and prevented Magic Johnson — 16 points, 20 assists and 11 rebounds in the loss — from winning his sixth NBA championship (in just 12 seasons). It was also the first championship for the 25-year-old Chicago franchise.
-                         After the game, Jordan, who finished his dominant NBA Finals performance with 30 points, 10 assists and 5 steals, was in tears with his now deceased father and ex-wife by his side. 
-                         “No one can ever take this away from me,” said an emotional Jordan. “This has been a seven-year struggle for me. It should get rid of the stigma of being a one-man team. We have players surrounding myself that make us an effective basketball team. I don’t know if I’ll ever have this same feeling again.”</p>
-                 </div> 
-              
-              </div>
+    fetchData = () => {
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response => response.json())
+            .then(json => this.setState({ users: json }))
+        // let temp=this.state.users
+        // this.state.users.map((val,index)=>{
+        //     let password="12345"
+        //     temp[index].push(password)
+        // })
+        // this.setState({users:temp})
+        // console.log("Cek Fetch")
+        // console.log(this.state.users)
+    }
+
+
+    render() {
+        const {dataUser,loginStatus} = this.props
+        console.log("cek home")
+        {this.fetchData()}
+        // console.log(dataUser)
+        if (loginStatus){
+            return <>
+                
+                    <h2>Data Album</h2>
+                    {/*<Form formName="formSearch">*/}
+                    {/*    <Input classDiv="input-group" classComp="input--style-1" placeholder="Search" name="searchForm"*/}
+                    {/*           type="text"/>*/}
+                    {/*    <Input classComp="btn-login" name="btnSearch" type="button" value="Search"/>*/}
+                    {/*</Form>*/}
+                    <table className="tableData" width="100%" border="1">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th className="namealbum" id="namealbum">Nama</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.users.map((val,index)=>{
+                            return (
+                                <tr>
+                                    <td>{index + 1}</td>
+                                    <td>{val.name}</td>
+                                    <td>{val.username}</td>
+                                    <td>{val.email}</td>
+                                    <td align="center">
+                                        <button onClick="">Detail</button>
+                                        <button onClick="">Edit</button>
+                                        <button onClick="">Delete</button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                        </tbody>
+                        {/*<tr>*/}
+                        {/*    <td>1</td>*/}
+                        {/*    <td>Tonny Bennet</td>*/}
+                        {/*    <td>La Vie en Rose</td>*/}
+                        {/*</tr>*/}
+                    </table>
+           
+
             </>
-        );
+        } else {
+            return <Redirect to ="/Login"/>
+        }
+
     }
 }
-        
 
-
-
-export default Home;
+export default Home

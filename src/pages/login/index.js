@@ -1,46 +1,76 @@
 import React, { Component } from 'react';
-import { Label, Input, RowInput } from '../../components';
+import {connect} from "react-redux"
 import "./style.css"
+import {Input} from "../../components"
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            username: "",
-            password: ""
+            email: "",
+            password: "",
          }
     }
-    onChangeInput = e => {
+
+    onChangeInput = e =>{
+        console.log(e.target)
         this.setState({
             [e.target.name]: e.target.value
         })
     }
-    onLogin = () => {
-        const { username, password } = this.state
-        console.log(username, " : ", password);
 
-        const exist = this.props.listUsers.find((user) => user.username === username && user.password === password)
-        if (exist) {
-            alert(`Welcome ${exist.name}!!`)
-            this.props.changeLogIn()
-        } else alert("User undefined!!")
+    // LOGIN FUNCTION 
+    doLogin = () =>{
+        const{email,password}=this.state
+        const{dataUser}=this.props
+        if (email&&password){
+            let statusLogin = false
+            statusLogin=dataUser.find(data=>(data.email==email&data.password==password))
+            if(statusLogin){
+                this.props.history.push("/")
+                this.props.loginStatus(statusLogin)
+            } else {
+                alert("Failed to Login")
+            }
+        } else {
+            alert("Check your Form")
+            }
+        }
+    
+    //GO TO REGISTER FORM
+    gotoRegist = () => {
+        this.props.history.push('/Register')
     }
-    render() { 
-        return ( 
 
-            <>
-                <div className="login-container"/>
-                    <div className="body-title">Selamat Datang</div>
-                    <div className="body-content">
-                        <div className="login-input">
-                        <RowInput value={this.state.username} label="Username" type="text" name="username" onChange={this.onChangeInput} />
-                        <RowInput value={this.state.password} label="Password" type="password" name="password" onChange={this.onChangeInput} />
-                        <input type="button" value="Login" onClick={this.onLogin} />
-                        </div>
-                    </div>
-            </>    
-         );
+    render() { 
+        return (
+            <div className="Login-container">
+                <h1>Login Here !</h1>
+                <form>
+                    <p>Email :</p>
+                    <Input type="text" name="email"
+                     placeholder="Enter Your Email"
+                     value={this.state.email}
+                     onChangeInput={this.onChangeInput}/>
+                    <p>Password :</p>
+                    <Input type="password" name="password"
+                     placeholder="Enter Your Password"
+                     value={this.state.password}
+                     onChangeInput={this.onChangeInput}/>
+                    <Input type="button" name="btnlogin"
+                     value="login"
+                     funcName={this.doLogin}/>
+                     <Input type="button" name="btnlogin"
+                     value="Register"
+                     funcName={this.gotoRegist}
+                     />
+                </form>  
+            </div>
+                
+          );
     }
 }
-
-export default Login;
+const mapStateToProps = state => ({
+    data: state.data.dataUser
+})
+export default connect(mapStateToProps)(Login)

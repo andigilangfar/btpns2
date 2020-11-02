@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./style.css"
+import './style.css'
 
 class Menu extends Component {
     constructor(props) {
@@ -7,12 +7,12 @@ class Menu extends Component {
         this.state = {  }
     }
     render() { 
-        return (
-            <div className='nav-menu' onClick={this.props.goToPage}>
+        return ( 
+            <div className="nav-menu" onClick={this.props.goToPage}>
                 {this.props.text}
             </div>
-          );
+         );
     }
 }
  
-export default Menu ;
+export default Menu;
