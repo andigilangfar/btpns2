@@ -1,18 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import {BrowserRouter as Router} from "react-router-dom";
-import {createStore} from "redux"
-import {Provider} from "react-redux"
-import AllReducers from "./reducer"
+import { BrowserRouter as Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
+// import { createStore } from 'redux'
+// import AllReducers from './reducers'
 
-const store = createStore(AllReducers, window._REDUX_DEVTOOLS_EXTENSION_ && window._REDUX_DEVTOOLS_EXTENSION_())
+import store from './store/store.js'
+import App from './App';
+
+// //Buat Store untuk Redux
+// const store = createStore(
+//   AllReducers,
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// )
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
-          <App />
+        <App />
       </Router>
     </Provider>
   </React.StrictMode>,

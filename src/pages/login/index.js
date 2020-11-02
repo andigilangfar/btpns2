@@ -1,76 +1,75 @@
 import React, { Component } from 'react';
-import {connect} from "react-redux"
-import "./style.css"
-import {Input} from "../../components"
+import './style.css'
+import RowInput from '../../components/rowinput';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            email: "",
+            username: "",
             password: "",
          }
     }
 
-    onChangeInput = e =>{
-        console.log(e.target)
-        this.setState({
-            [e.target.name]: e.target.value
+    onChangeInput = e => {
+        // console.log(e.target)
+        this.setState( {
+            [e.target.name] : e.target.value
         })
+        // console.log(e)
     }
+//LOGIN CLICK
+    onClickLogin = async () => {
 
-    // LOGIN FUNCTION 
-    doLogin = () =>{
-        const{email,password}=this.state
-        const{dataUser}=this.props
-        if (email&&password){
-            let statusLogin = false
-            statusLogin=dataUser.find(data=>(data.email==email&data.password==password))
-            if(statusLogin){
-                this.props.history.push("/")
-                this.props.loginStatus(statusLogin)
+        const { username, password } = this.state
+        console.log(username, " : ", password)
+
+        if (username && password) {
+            let statusLogin = this.props.adminLogin.find(admin => (admin.username === username && admin.password === password))
+            if (statusLogin) {
+                alert('Login Success')
+                let type = statusLogin.type
+                this.props.doLogin({username, password, type}, this.props.adminLogin)
             } else {
-                alert("Failed to Login")
+                alert('Check your Password or Username')
             }
         } else {
-            alert("Check your Form")
-            }
+            alert('Check your Form')
         }
-    
-    //GO TO REGISTER FORM
-    gotoRegist = () => {
-        this.props.history.push('/Register')
     }
 
     render() { 
-        return (
-            <div className="Login-container">
-                <h1>Login Here !</h1>
-                <form>
-                    <p>Email :</p>
-                    <Input type="text" name="email"
-                     placeholder="Enter Your Email"
-                     value={this.state.email}
-                     onChangeInput={this.onChangeInput}/>
-                    <p>Password :</p>
-                    <Input type="password" name="password"
-                     placeholder="Enter Your Password"
-                     value={this.state.password}
-                     onChangeInput={this.onChangeInput}/>
-                    <Input type="button" name="btnlogin"
-                     value="login"
-                     funcName={this.doLogin}/>
-                     <Input type="button" name="btnlogin"
-                     value="Register"
-                     funcName={this.gotoRegist}
-                     />
-                </form>  
+        if (this.props.statusLogin)
+            return <Redirect to="/" />
+        
+        return ( 
+            <div className="login">
+                    <form className="form">
+                        <RowInput label="Username" type="text"
+                         name="username" placeholder="Enter Your Username"
+                         onChangeInput={this.onChangeInput} />
+                        <RowInput label="Password" type="password"
+                         name="password" placeholder="Enter Your Password"
+                         onChangeInput={this.onChangeInput} />
+                        <button type="button" className="submit-btn"
+                         onClick={this.onClickLogin}>Login</button>
+                    </form>
             </div>
-                
-          );
+         );
     }
 }
-const mapStateToProps = state => ({
-    data: state.data.dataUser
+
+
+//REDUX DATA//
+const mapStateToProps = (state) => ({
+    statusLogin: state.auth.statusLogin,
+    adminLogin: state.auth.admin,
 })
-export default connect(mapStateToProps)(Login)
+
+const mapDispatchToProps = (dispatch) => ({
+    doLogin: (adminLogin, dataLogin) => dispatch({ type: "LOGIN", payload: { adminLogin, dataLogin } })
+})
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

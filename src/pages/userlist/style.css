@@ -1,0 +1,31 @@
+h2{
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 100px;
+    color: rgb(59, 59, 223);
+}
+
+th{
+    color: rgb(0, 0, 0);
+    margin-right: 50px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-edit{
+    color: rgb(0, 0, 0);
+    background-color: rgb(180, 180, 180);
+    cursor: pointer;
+}
+
+.btn-detail{
+    color: rgb(0, 0, 0);
+    background-color: rgb(1, 92, 230);
+    cursor: pointer;
+}
+
+.btn-delete{
+    color: rgb(0, 0, 0);
+    background-color: rgb(253, 2, 2);
+    cursor: pointer;
+}

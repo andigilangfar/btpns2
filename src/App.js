@@ -1,40 +1,60 @@
-import React, {Component} from 'react';
-import {Body,Nav} from "./templates"
+import React,{ Component } from 'react';
+// import logo from './logo.svg';
+import { Nav, Body, Footer } from './templates';
+// import './App.css';
 
-class App extends Component{
-    constructor(props) {
-      super(props);
-      this.state={
-          page:"register",
-          loginStatus:false
-      }
-    }
-  
-    onClickButton = (page)=>{
-        this.setState({
-            page
-        })
-    }
-    setLoginStatus=(status)=>{
-        console.log("check")
-        console.log(status)
-        this.setState({
-            loginStatus:status
-        })
-    }
-  
-    render() {
-      return(
-          <>
-            <Nav loginStatus={this.state.loginStatus}
-             toPage={this.onClickButton}/>
-            <Body loginStatus={this.state.loginStatus} 
-            status={this.setLoginStatus} 
-            page={this.state.page} 
-            toPage={this.onClickButton}/>
-          </>
-      )
-    }
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      page: 'home',
+      statusLogin : true
+     }
   }
-  
-  export default App;
+
+  shouldComponentUpdate(lastProp) {
+    if (lastProp.page !== this.state.page)
+      return true
+    return false
+  }
+
+  onClickButton = (page) => {
+    this.setState({
+      page
+    })
+  }
+
+  changeStatus = () => {
+    this.setState(oldState => ({ statusLogin : !oldState.statusLogin }))
+  }
+
+  doLogin = () => {
+    this.setState({ statusLogin : true })
+  }
+
+  doLogout = () => {
+    this.setState({ statusLogin : false })
+  }
+
+  render() { 
+    console.log(this.state.page)
+    return ( 
+      <div>
+        <Nav 
+          changePage={this.onClickButton} 
+          // statusLogin={this.state.statusLogin} 
+          // changeStatus={this.changeStatus} 
+        />
+        <Body 
+          page={this.state.page} 
+          changePage={this.onClickButton} 
+          changeStatus={this.changeStatus} 
+          statusLogin={this.state.statusLogin} 
+        />
+        <Footer />
+      </div>
+     );
+  }
+}
+
+export default App;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import "./style.css"
-import logo from "./nbalogo.webp"
+
 
 class Header extends Component {
     constructor(props) {
@@ -9,9 +8,7 @@ class Header extends Component {
     }
     render() { 
         return ( 
-            <div className="header">
-                <img src={ logo } className="logoheader"></img>
-                </div>
+            <div>Ini Header</div>
          );
     }
 }

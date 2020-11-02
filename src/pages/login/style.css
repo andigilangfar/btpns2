@@ -1,27 +1,14 @@
 .login {
-    background: #fbfbfb;
+    background: #254896;
     border-radius: 8px;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.65);
-    height: 400px;
-    margin: 4rem auto 8.1rem auto;
+    height: 300px;
+    margin: 3rem auto 8.1rem auto;
     width: 329px;
 }
 
-.card-content {
-    padding: 12px 44px;
-}
-
-.card-title {
-    font-family: "Raleway Thin", sans-serif;
-    letter-spacing: 4px;
-    padding-bottom: 23px;
-    padding-top: 13px;
+label{
     text-align: center;
+    color: aliceblue;
 }
 
-.underline-title {
-    background: -webkit-linear-gradient(right, #a6f77b, #2ec06f);
-    height: 2px;
-    margin: -1.1rem auto 0 auto;
-    width: 89px;
-}

@@ -1,92 +1,98 @@
-import React,{Component} from "react"
-import {connect} from "react-redux"
-import {Switch,Route} from "react-router-dom"
-import {Home, Login, Register} from "../../pages";
+import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom'
+import { Home, Login, Register, UserList } from '../../pages'
+import './style.css'
 
-class Body extends Component{
+class Body extends Component {
     constructor(props) {
         super(props);
-        this.state={
-            dataUser: [{
-                nama:"Human Capital",
-                email:"HC@admin.com",
-                password:"123",
-                roletype: 0
-            }, {
-                nama:"CEO",
-                email:"CEO@admin.com",
-                password:"123",
-                roletype: 1
-            }],
-            logout: true
-        }
+        this.state = { 
+            dataRegister : [],
+            dataLogin : {},
+            dataAdmin : [
+                {
+                    nama : "admin",
+                    username : "admin",
+                    password : "admin",
+                }
+            ],
+            users : [
+                {
+                    password : "123",
+                }
+            ],
+         }
     }
-       
+
+    componentDidMount() {
+        fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(json => this.setState({ users : json }))
+    }
+
+    // onRegister = data => {
+    //     if(this.state.dataRegister.push(data)) {
+    //         alert("Terima kasih telah mendaftar")
+    //     } else {
+    //         alert("Silahkan coba daftar lagi")
+    //     }
+    //     console.log("Data Register : ", this.state.dataRegister)
+    // }
+
+    // goLogin = async data => {
+    //     await this.setState({ dataLogin : data })
+    //     console.log('Data Login : ', this.state.dataLogin)
+    //     this.props.changeStatus(true)
+    // }
+
     showPage = () => {
-        const {page,status} = this.props
+        const { statusLogin, changeStatus } = this.props
+
+        // if (page === 'home')
+        //     return <Home />
+
+        // if (page === 'login')
+        //     return <Login title="LOGIN" dataRegister={this.state.dataRegister} dataLogin={this.state.dataLogin} updateLogin={this.goLogin} />
+
+        // if (page === 'register')
+        //     return <Register title="REGISTER" goRegister={this.onRegister} dataRegister={this.state.dataRegister} />
+
         return (
             <Switch>
-                <Route exact path="/" children={(props) => <Home/>} />
-                <Route exact path="/Login" children={(props) => <Login {...props} dataUser={this.state.dataUser}
-                 logout={false} loginStatus={this.doLogin}/>} />
-                <Route exact path='/Register' children={(props) => <Register {...props} dataUser={this.state.dataUser}
-                 saveData={this.setDataUser}/>} />
+                <Route exact path="/" children={(props) => <Home {...props} statusLogin={statusLogin} /> } />
+                <Route path="/userlist" children={(props) => <UserList {...props} statusLogin={statusLogin} users={this.state.users} /> } />
+                <Route path="/login">
+                    <Login title="LOGIN" changeStatus={changeStatus} dataRegister={this.state.dataRegister} statusLogin={this.props.statusLogin} dataAdmin={this.state.dataAdmin} users={this.state.users} />
+                </Route>
+                <Route path="/register">
+                    <Register title="REGISTER" dataRegister={this.state.dataRegister} goRegister={this.onRegister} />
+                </Route>
             </Switch>
         )
-    }
-
-    doLogout = loginStatus => {
-        console.log("cek dologin")
-        console.log(loginStatus)
-        this.props.toPage("login")
-        this.props.status(false)
     
     }
-    doLogin = loginStatus => {
-        console.log(loginStatus)
-        if(loginStatus.roletype === 0){
-            {this.props.status("Human Capital")}
-            alert("Welcome Human Capital")
-            }else if(loginStatus.roletype === 1){
-                {this.props.status("CEO")}
-                alert("Welcome Chief")
-            }else{
-                {this.props.status("Staff")}
-                alert("Welcome Staff")
-            }
-    //     if (loginStatus) {
-    //         //this.props.toPage("home")
-    //         this.props.status(true)
-    //     }
-    }
-    setDataUser = (dataUser, idUser) => {
-        // const idUser=this.state.dataUser.length;
-        let data = this.state.dataUser
-        data.splice(idUser, 1, dataUser)
-        console.log("Isi Data User")
-        console.log(dataUser)
 
-        this.setState({
-            dataUser: data
+    onRegister = obj => {
+        const { nama, username, password } = obj
+        let oldUsers = this.state.dataRegister
+        oldUsers.push({
+            nama,
+            username,
+            password,
         })
-        
+        this.setState({
+            dataRegister : oldUsers
+        })
     }
-    render() {
-        console.log(this.props.data)
-        return <>
-            <div id="main">
-                {this.showPage()}
-            </div>
-        </>
-    }
-    
-}
-const mapStateToProps = state => ({
-    data: state.data.dataUser
-})
 
-const mapDispatchToProps = (dispatch) => ({
-    setData: (data) => dispatch({type: "addUser",  payload: {dataUser : data}
-    })
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Body)
+    render() { 
+        return ( 
+            <div>
+                { this.showPage() }
+                
+            </div>
+         );
+    }
+}
+ 
+export default Body;

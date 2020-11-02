@@ -1,7 +1,6 @@
-import Login from "./login"
-import Register from "./register"
-import Home from "./home"
-import About from "./about"
-import Userlist from "./userlist"
+import Home from './home'
+import Login from './login'
+import Register from './register'
+import UserList from './userList'
 
-export { Login, Register, Home, About, Userlist }
+export { Home, Login, Register, UserList }

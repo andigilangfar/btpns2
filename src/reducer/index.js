@@ -1,8 +1,8 @@
-import Data from "./data"
-import {combineReducers} from "redux"
+import { combineReducers } from 'redux'
+import AuthReducer from './auth'
 
-const AllReducers = combineReducers({
-    data : Data
+const allReducers = combineReducers({
+    auth: AuthReducer
 })
 
-export default AllReducers
+export default allReducers
