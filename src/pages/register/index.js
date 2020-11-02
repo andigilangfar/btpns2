@@ -25,7 +25,7 @@ class Register extends Component {
         this.props.goRegister({ nama, username, password })
         console.log(this.props.goRegister.length)
         if (this.props.goRegister.length) {
-            alert('Terima kasih sudah register bosq, satu langkah lagi, silahkan login')
+            alert('Register Success')
         // } else {
         //     this.props.goRegister(this.state.data)
         //     this.setState(x => x.data = {})
