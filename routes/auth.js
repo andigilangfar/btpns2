@@ -1,53 +1,63 @@
-const express = require("express")
-const bodyParser = require('body-parser')
+const express = require('express')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+
+const users = require('../models/users')
+const { route } = require('./user')
+
 const router = express.Router()
-const jwt = require("jsonwebtoken")
-
-
-const jsonParser = bodyParser.json()
-const user = require("../models/user")
-require("dotenv").config()
-
 const key = process.env.JWT_KEY
 
-
 router.post("/login", (req, res) => {
-    const { username, password,type } = req.body
-    user.filter(user=> username === user.username && password === user.password).map(user=>{
+    const {username, password} = req.body
+
+    const userLogin = users.find(user => user.username === username && user.password === password)
+
+    // login success
+    if (userLogin) {
         const dataUser = {
-            username: user.username,
-            type: user.type
-            }
-            const token = jwt.sign(dataUser, key, { expiresIn: '1h' })
-
-        return response(res, 200, "Login Success!", [{ dataUser,token }])
+            username,
+            type: userLogin.type
         }
-    )
-    return response(res, 401, "User does not exist!!", [])
-})
 
+        // create jwt token
+        const token = jwt.sign(dataUser, key, {expiresIn: '1h'})
 
-
-//register user
-router.post("/register", jsonParser, (req, res)=>{
-    const { email, passwordConfirm, password } = req.body
-    const checkEmail = user.find(user=> email === user.email)
-    if (!checkEmail) {
-        if(password === passwordConfirm){
-            user.push(req.body)
-            return response(res, 200, "Register Success!!", [{ email }])
-        }
+        return res.status(200).send({
+            code: 200,
+            message: "welcome",
+            data: [{ username, password, token }]
+        })
     }
-    return response(res, 400, "Email has already registered or bad request!", [])
     
+    // login failed
+    return res.status(401).send({
+        error: "user Doesnt Exist"
+    })
 })
 
-const response = (res, code, message, data) => {
-    res.send({
-        code,
-        message,
-        data
+router.post('/register', (req, res) => {
+    const { username, password } = req.body
+
+    const userRegister = users.push(req.body)
+
+    // register success
+    if (userRegister) {
+        // const dataUser = {
+        //     username,
+        //     password,
+        //     role
+        // }
+
+        return res.status(200).send({
+            message: "Register is Complete",
+            data: [{ username, password }]
+        })
+    }
+    // register failed
+    return res.status(401).send({
+        error: "Check again your form"
     })
-}
+})
 
 module.exports = router
